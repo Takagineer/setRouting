@@ -1,20 +1,22 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { memo, useCallback, VFC } from "react";
 import { Box, Flex, Heading, Link, useDisclosure } from "@chakra-ui/react";
-import { memo, useCallback, VFC } from "react";
 import { useHistory } from "react-router-dom";
+
 import { MenuIconButton } from "../../atoms/button/MenuIconButton";
 import { MenuDrawer } from "../../molecules/MenuDrawer";
 
 export const Header: VFC = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const histroy = useHistory();
-  const onClickHome = useCallback(() => histroy.push("/home"), [history]);
+
+  const history = useHistory();
+
+  const onClickHome = useCallback(() => history.push("/home"), []);
   const onClickUserManagement = useCallback(
-    () => histroy.push("/home/user_management"),
-    [history]
+    () => history.push("/home/user_management"),
+    []
   );
-  const onClickSetting = useCallback(() => histroy.push("/home/setting"), [
-    history
-  ]);
+  const onClickSetting = useCallback(() => history.push("/home/setting"), []);
 
   return (
     <>
@@ -33,26 +35,28 @@ export const Header: VFC = memo(() => {
           _hover={{ cursor: "pointer" }}
           onClick={onClickHome}
         >
-          <Heading fontSize={{ base: "md", md: "lg" }}>
+          <Heading as="h1" fontSize={{ base: "md", md: "lg" }}>
             ユーザー管理アプリ
           </Heading>
         </Flex>
         <Flex
           align="center"
           fontSize="sm"
-          flexGrow={2}
           display={{ base: "none", md: "flex" }}
+          flexGrow={2}
         >
           <Box pr={4}>
             <Link onClick={onClickUserManagement}>ユーザー一覧</Link>
+          </Box>
+          <Box>
             <Link onClick={onClickSetting}>設定</Link>
           </Box>
         </Flex>
         <MenuIconButton onOpen={onOpen} />
       </Flex>
       <MenuDrawer
-        onClose={onClose}
         isOpen={isOpen}
+        onClose={onClose}
         onClickHome={onClickHome}
         onClickUserManagement={onClickUserManagement}
         onClickSetting={onClickSetting}
